@@ -7,6 +7,8 @@ const INSTANCES = [
 	'https://geminiforjanitors-k4v3.onrender.com'
 ] as const;
 
+const CACHE_KEY = 'instancesData';
+
 export interface InstanceData {
 	admin: string;
 	bandwidth: number;
@@ -25,7 +27,12 @@ export interface InstanceDataQuery {
 	timestamp: string;
 	timingMs: number;
 	error: string;
-	data: InstanceData;
+	data?: InstanceData;
+}
+
+interface InstanceDataCache {
+	queries: Record<string, InstanceDataQuery>;
+	timestamp: string;
 }
 
 async function queryInstance(url: string): Promise<InstanceDataQuery> {
@@ -55,12 +62,39 @@ async function queryInstance(url: string): Promise<InstanceDataQuery> {
 			statusText: '',
 			timestamp: timestamp,
 			timingMs: 0,
-			data: {} as InstanceData,
 			error: error instanceof Error ? error.name : 'UnknownError'
 		};
 	}
 }
 
-export async function queryInstancesCache() {
-	return await Promise.all(INSTANCES.map(queryInstance));
+export async function queryInstancesDataCache(kv: KVNamespace<string>) {
+	return (await kv.get(CACHE_KEY, 'json')) as InstanceDataCache | null;
+}
+
+export async function refreshInstancesDataCache(kv: KVNamespace<string>) {
+	const results = await Promise.all(INSTANCES.map(queryInstance));
+	const cache = await kv.get<InstanceDataCache>(CACHE_KEY, 'json');
+
+	const oldQueries: Record<string, InstanceDataQuery> = cache?.queries || {};
+	const newQueries: Record<string, InstanceDataQuery> = {};
+
+	for (const result of results) {
+		const oldEntry = oldQueries[result.url];
+
+		if (!result.data && oldEntry?.data) {
+			result.data = oldEntry.data;
+		}
+
+		newQueries[result.url] = result;
+	}
+
+	await kv.put(
+		CACHE_KEY,
+		JSON.stringify({
+			queries: newQueries,
+			timestamp: new Date().toISOString()
+		})
+	);
+
+	return Object.keys(newQueries);
 }

@@ -20,16 +20,33 @@
 	</div>
 	<div class="border-b-2 border-slate-300 pb-2">
 		<span class="text-slate-500">Hosted by</span>
-		<span class="rounded-xl bg-slate-500 px-3 py-0.5 text-white">{instance.data.admin}</span>
+		<span class="rounded-xl bg-slate-500 px-3 py-0.5 text-white"
+			>{instance.data?.admin || 'Unknown'}</span
+		>
 	</div>
 	<div class="my-2 flex flex-wrap gap-2">
-		<DataChip label="bandwidth" value={formatMebibytes(instance.data.bandwidth)} />
-		<DataChip label="bwarning" value={formatMebibytes(instance.data.bwarning)} />
-		<DataChip label="cooldown" value={formatDuration(instance.data.cooldown)} />
-		<DataChip label="cpolicy" value={instance.data.cpolicy} />
-		<DataChip label="keyspace" value={instance.data.keyspace.toLocaleString('en')} />
-		<DataChip label="uptime" value={formatDuration(instance.data.uptime, { expanded: true })} />
-		<DataChip label="version" value={instance.data.version} />
+		<DataChip
+			label="bandwidth"
+			value={instance.data ? formatMebibytes(instance.data.bandwidth) : 'unknown'}
+		/>
+		<DataChip
+			label="bwarning"
+			value={instance.data ? formatMebibytes(instance.data.bwarning) : 'unknown'}
+		/>
+		<DataChip
+			label="cooldown"
+			value={instance.data ? formatDuration(instance.data.cooldown) : 'unknown'}
+		/>
+		<DataChip label="cpolicy" value={instance.data ? instance.data.cpolicy : 'unknown'} />
+		<DataChip
+			label="keyspace"
+			value={instance.data ? instance.data.keyspace.toLocaleString('en') : 'unknown'}
+		/>
+		<DataChip
+			label="uptime"
+			value={instance.data ? formatDuration(instance.data.uptime, { expanded: true }) : 'unknown'}
+		/>
+		<DataChip label="version" value={instance.data ? instance.data.version : 'unknown'} />
 	</div>
 	<div class="mt-auto flex flex-wrap border-t-2 border-slate-300 pt-2">
 		<div class="whitespace-nowrap">

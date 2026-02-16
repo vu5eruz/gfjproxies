@@ -1,8 +1,9 @@
-import { queryInstancesCache } from '$lib/instances';
+import { queryInstancesDataCache } from '$lib/instances';
 
-export async function load() {
-	const instances = await queryInstancesCache();
+export async function load({ platform }) {
+	const cache = await queryInstancesDataCache(platform!.env.STORAGE);
 	return {
-		instances: Math.random() < 0.5 ? instances : []
+		instances: Object.values(cache?.queries ?? {}),
+		timestamp: cache?.timestamp
 	};
 }
