@@ -12,7 +12,7 @@
 		"enabled": true
 	},
 	"triggers": {
-		"crons": ["* * * * *"]
+		"crons": ["*/15 * * * *"]
 	},
 	"kv_namespaces": [
 		{
