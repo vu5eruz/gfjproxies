@@ -45,7 +45,10 @@ async function queryInstance(url: string): Promise<InstanceDataQuery> {
 			signal: AbortSignal.timeout(2500)
 		});
 
-		const data = response.ok ? await response.json() : undefined;
+		const data =
+			response.ok && response.headers.get('Content-Type')?.startsWith('application/json')
+				? await response.json()
+				: undefined;
 
 		return {
 			url,
