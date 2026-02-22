@@ -4,7 +4,8 @@ const INSTANCES = [
 	'https://geminiforjanitors-r7wu.onrender.com',
 	'https://geminiforjanitors-s34l.onrender.com',
 	'https://geminiforjanitors-g24s.onrender.com',
-	'https://geminiforjanitors-k4v3.onrender.com'
+	'https://geminiforjanitors-k4v3.onrender.com',
+	'https://geminiforjanitors-i7zd.onrender.com'
 ] as const;
 
 const CACHE_KEY = 'instancesData';
@@ -44,7 +45,7 @@ async function queryInstance(url: string): Promise<InstanceDataQuery> {
 			signal: AbortSignal.timeout(2500)
 		});
 
-		const data = response.ok ? await response.json() : {};
+		const data = response.ok ? await response.json() : undefined;
 
 		return {
 			url,
