@@ -42,7 +42,7 @@ async function queryInstance(url: string): Promise<InstanceDataQuery> {
 
 	try {
 		const response = await fetch(`${url}/health`, {
-			signal: AbortSignal.timeout(2500)
+			signal: AbortSignal.timeout(5000)
 		});
 
 		const data =
