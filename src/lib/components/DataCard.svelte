@@ -50,13 +50,13 @@
 	</div>
 	<div class="mt-auto flex flex-wrap border-t-2 border-slate-300 pt-2">
 		<div class="whitespace-nowrap">
-			<span
-				class:text-green-600={instance.status >= 200 && instance.status < 300}
-				class:text-amber-600={instance.status >= 400 && instance.status < 500}
-				class:text-red-600={instance.status >= 500 || instance.status === -1}
-				>{instance.status} {instance.statusText}</span
-			>
 			{#if instance.error === 'NoError'}
+				<span
+					class:text-green-600={instance.status >= 200 && instance.status < 300}
+					class:text-amber-600={instance.status >= 400 && instance.status < 500}
+					class:text-red-600={instance.status >= 500 || instance.status === -1}
+					>{instance.status} {instance.statusText}</span
+				>
 				<span
 					class:text-lime-600={instance.status >= 200 && instance.status < 300}
 					class:text-amber-500={instance.status >= 400 && instance.status < 500}
