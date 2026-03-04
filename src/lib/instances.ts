@@ -5,7 +5,8 @@ const INSTANCES = [
 	'https://geminiforjanitors-s34l.onrender.com',
 	'https://geminiforjanitors-g24s.onrender.com',
 	'https://geminiforjanitors-k4v3.onrender.com',
-	'https://geminiforjanitors-i7zd.onrender.com'
+	'https://geminiforjanitors-i7zd.onrender.com',
+	'https://geminiforjanitors-y4b6.onrender.com'
 ] as const;
 
 const CACHE_KEY = 'instancesData';
